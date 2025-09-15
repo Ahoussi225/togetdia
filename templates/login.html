@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion - Togetdia{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Connexion</h2>
+            <p>Accédez à votre compte Togetdia</p>
+        </div>
+        
+        <form class="auth-form" method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur ou email</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" name="remember">
+                    <span class="checkmark"></span>
+                    Se souvenir de moi
+                </label>
+                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-auth">Se connecter</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Vous n'avez pas de compte ? <a href="{{ url_for('register') }}">Créer un compte</a></p>
+        </div>
+        
+        <div class="auth-divider">
+            <span>Ou</span>
+        </div>
+        
+        <div class="social-auth">
+            <button class="btn btn-social btn-google">
+                <i class="fab fa-google"></i>
+                Se connecter avec Google
+            </button>
+            <button class="btn btn-social btn-facebook">
+                <i class="fab fa-facebook-f"></i>
+                Se connecter avec Facebook
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

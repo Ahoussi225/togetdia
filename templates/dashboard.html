@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord - Togetdia{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-container">
+            <a href="{{ url_for('index') }}">Accueil</a>
+            <span>></span>
+            <a href="#">Tableau de bord</a>
+        </div>
+    </div>
+</div>
+
+<section class="section dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Bonjour, {{ username }}!</h1>
+            <p>Bienvenue dans votre espace personnel Togetdia</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Carte Mes Projets -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>Mes projets</h3>
+                    <a href="{{ url_for('digital_services') }}" class="view-all">Voir tout</a>
+                </div>
+                <div class="card-content">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <h4>Vous n'avez pas encore de projet</h4>
+                        <p>Commencez par découvrir nos services et commandez votre premier projet</p>
+                        <a href="{{ url_for('digital_services') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Commander un service
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Informations Personnelles -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>Informations personnelles</h3>
+                    <button class="edit-link" id="editProfileBtn">
+                        <i class="fas fa-edit"></i> Modifier
+                    </button>
+                </div>
+                <div class="card-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Nom d'utilisateur</span>
+                                <span class="info-value">{{ username }}</span>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">user@example.com</span>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Membre depuis</span>
+                                <span class="info-value">Septembre 2023</span>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Statut du compte</span>
+                                <span class="info-value status-verified">Vérifié</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Services Populaires -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>Services populaires</h3>
+                    <a href="{{ url_for('digital_services') }}" class="view-all">Explorer</a>
+                </div>
+                <div class="card-content">
+                    <div class="services-mini-list">
+                        <div class="service-mini-card">
+                            <div class="service-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="service-info">
+                                <h4>Développement Web</h4>
+                                <p class="service-price">À partir de 643.500fcfa</p>
+                                <span class="service-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="rating-text">4.5/5</span>
+                                </span>
+                            </div>
+                            <a href="{{ url_for('web_development_service') }}" class="service-action">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <div class="service-mini-card">
+                            <div class="service-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="service-info">
+                                <h4>Chatbot IA</h4>
+                                <p class="service-price">À partir de 838.500fcfa</p>
+                                <span class="service-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="rating-text">4.8/5</span>
+                                </span>
+                            </div>
+                            <a href="{{ url_for('ia_services') }}" class="service-action">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <div class="service-mini-card">
+                            <div class="service-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="service-info">
+                                <h4>Marketing Digital</h4>
+                                <p class="service-price">À partir de 513.500fcfa</p>
+                                <span class="service-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="rating-text">4.7/5</span>
+                                </span>
+                            </div>
+                            <a href="{{ url_for('digital_services') }}" class="service-action">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Notifications -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>Notifications</h3>
+                    <button class="mark-all-read" id="markAllRead">
+                        <i class="fas fa-check-double"></i> Tout marquer comme lu
+                    </button>
+                </div>
+                <div class="card-content">
+                    <div class="notifications-list">
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p class="notification-text">Bienvenue sur Togetdia! Découvrez nos services.</p>
+                                <span class="notification-time">Il y a 2 heures</span>
+                            </div>
+                            <div class="notification-badge"></div>
+                        </div>
+
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p class="notification-text">Offre spéciale: -15% sur votre première commande</p>
+                                <span class="notification-time">Hier</span>
+                            </div>
+                            <div class="notification-badge"></div>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p class="notification-text">Votre profil a été mis à jour avec succès</p>
+                                <span class="notification-time">Il y a 3 jours</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notifications-footer">
+                        <a href="#" class="view-all-notifications">
+                            <i class="fas fa-bell"></i> Voir toutes les notifications
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Statistiques Rapides -->
+        <div class="stats-section">
+            <h3>Vue d'ensemble</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Projets actifs</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Projets terminés</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Messages non lus</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Avis donnés</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal d'édition de profil -->
+<div class="modal" id="editProfileModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Modifier le profil</h3>
+            <button class="modal-close" id="closeEditModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="profile-form">
+                <div class="form-group">
+                    <label for="editUsername">Nom d'utilisateur</label>
+                    <input type="text" id="editUsername" value="{{ username }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" value="user@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="editPhone">Téléphone</label>
+                    <input type="tel" id="editPhone" placeholder="+33 ...">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelEdit">Annuler</button>
+            <button class="btn btn-primary" id="saveProfile">Enregistrer</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

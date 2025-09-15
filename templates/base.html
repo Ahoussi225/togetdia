@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Togetdia - {% block title %}Services Digitaux & IA{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon et métadonnées -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <meta name="description" content="Togetdia - Services digitaux et solutions IA pour transformer votre entreprise">
+    <meta name="keywords" content="développement web, intelligence artificielle, services digitaux, chatbot, marketing digital">
+    <meta name="author" content="Togetdia">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">
+                <i class="fas fa-brain"></i> Togetdia
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="{{ url_for('index') }}" class="nav-link">Accueil</a>
+                <a href="{{ url_for('digital_services') }}" class="nav-link">Services Digitaux</a>
+                <a href="{{ url_for('ia_services') }}" class="nav-link">Services IA</a>
+                <a href="{{ url_for('about') }}" class="nav-link">À Propos</a>
+                {% if session.user_id %}
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Mon Compte</a>
+                <a href="{{ url_for('logout') }}" class="nav-link">Déconnexion</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="nav-link">Connexion</a>
+                <a href="{{ url_for('register') }}" class="nav-link nav-cta">Inscription</a>
+                {% endif %}
+                <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Contenu principal -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Togetdia</h3>
+                <p>Votre partenaire pour la transformation digitale et l'intelligence artificielle.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/togetWeb" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/togetdia" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="{{ url_for('digital_services') }}">Services Digitaux</a></li>
+                    <li><a href="{{ url_for('ia_services') }}">Services IA</a></li>
+                    <li><a href="#">Consultation</a></li>
+                    <li><a href="#">Formation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Entreprise</h4>
+                <ul>
+                    <li><a href="{{ url_for('about') }}">À propos</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Carrières</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Légal</h4>
+                <ul>
+                    <li><a href="#">Conditions d'utilisation</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                    <li><a href="#">Politique des cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Togetdia. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+   <!-- Chatbot -->
+<div class="chatbot-container">
+    <div class="chatbot-header">
+        <h4>Assistant Virtuel</h4>
+        <button class="chatbot-close" id="chatbotClose">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages">
+        <div class="message bot-message">
+            <p>Bonjour ! Je suis l'assistant virtuel de Togetdia. Comment puis-je vous aider aujourd'hui ?</p>
+        </div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbotInput" placeholder="Tapez votre message...">
+        <button id="chatbotSend">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+<button class="chatbot-toggle" id="chatbotToggle">
+    <i class="fas fa-comments"></i>
+</button>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

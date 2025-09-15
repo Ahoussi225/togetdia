@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À Propos - ToGet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block content %}
+    <div class="about-container">
+        <!-- Section Hero -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>À propos de <span class="highlight">ToGet</span></h1>
+                <p>Votre partenaire pour des solutions digitales innovantes</p>
+            </div>
+        </section>
+
+        <!-- Section Introduction -->
+        <section class="intro-section">
+            <div class="container">
+                <div class="intro-content">
+                    <div class="intro-text">
+                        <h2>Notre Mission</h2>
+                        <p>Chez ToGet, bénéficiez de solutions rapides et précises, de conseils fiables, d'une expertise concrète et de stratégies performantes pour tous vos projets en digital, intelligence artificielle et management de l'innovation.</p>
+                        <p>Notre équipe d'experts, même à distance, élabore des stratégies innovantes, adaptées à vos besoins spécifiques. Que vous soyez une petite entreprise ou une grande organisation, nous vous offrons les outils et l'expertise nécessaires pour garantir votre succès.</p>
+                    </div>
+                    <div class="intro-image">
+                        <img src="{{ url_for('static', filename='images/togetop_logo.jpg') }}" alt="togetop_logo">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Valeurs -->
+        <section class="values-section">
+            <div class="container">
+                <h2>Nos atouts majeurs</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Vitesse</h3>
+                        <p>Réactivité exceptionnelle et délais d'exécution optimisés pour répondre à vos urgences.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Précision</h3>
+                        <p>Solutions sur-mesure et analyses minutieuses pour des résultats parfaitement adaptés.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Fiabilité</h3>
+                        <p>Conseils avisés et accompagnement constant pour la pérennité de vos projets.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Équipe -->
+        <section class="team-section">
+            <div class="container">
+                <h2>Notre expertise</h2>
+                <div class="expertise-grid">
+                    <div class="expertise-item">
+                        <h3>Digital</h3>
+                        <p>Stratégies digitales sur-mesure pour booster votre présence en ligne.</p>
+                    </div>
+                    <div class="expertise-item">
+                        <h3>Intelligence Artificielle</h3>
+                        <p>Solutions IA innovantes pour automatiser et optimiser vos processus.</p>
+                    </div>
+                    <div class="expertise-item">
+                        <h3>Management de l'innovation</h3>
+                        <p>Accompagnement pour transformer vos idées en projets concrets.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Prêt à transformer vos projets ?</h2>
+                    <p>Rejoignez-nous pour transformer vos projets en solutions innovantes, concrètes et performantes.</p>
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('contact') }}" class="btn btn-primary">Nous contacter</a>
+                        <a href="{{ url_for('services') }}" class="btn btn-secondary">Découvrir nos services</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    {% endblock %}
+</body>
+</html>

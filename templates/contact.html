@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Nous Contacter - Togetdia{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-container">
+            <a href="{{ url_for('index') }}">Accueil</a>
+            <span>></span>
+            <a href="#">Nous Contacter</a>
+        </div>
+    </div>
+</div>
+
+<section class="section contact-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Contactez-nous</h2>
+            <p>Nous sommes à votre écoute pour répondre à toutes vos questions</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-info-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Adresse</h3>
+                    <p>Riviera Palmeraie<br>Rond Point ADO, Rue l97.44<br>Abidjan, Côte d'Ivoire</p>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Téléphone</h3>
+                    <p>+225 22 00 80 04</p>
+                    <p>+225 74 33 04 82</p>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <p>info@toget.pro</p>
+                    <p>www.toget.pro</p>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Horaires</h3>
+                    <p>Lun - Ven: 8h - 17h</p>
+                    <p>Sam: 8h - 12h</p>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <div class="contact-form-card">
+                    <h3>Envoyez-nous un message</h3>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Prénom *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <span class="error-message" id="firstNameError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Nom *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <span class="error-message" id="lastNameError"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message" id="emailError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" name="phone">
+                            <span class="error-message" id="phoneError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Sujet *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Sélectionnez un sujet</option>
+                                <option value="general">Question générale</option>
+                                <option value="quote">Demande de devis</option>
+                                <option value="support">Support technique</option>
+                                <option value="partnership">Partenariat</option>
+                                <option value="other">Autre</option>
+                            </select>
+                            <span class="error-message" id="subjectError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <span class="error-message" id="messageError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <span class="checkmark"></span>
+                                Je souhaite recevoir la newsletter Togetdia
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <span class="btn-text">Envoyer le message</span>
+                            <span class="btn-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Envoi en cours...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <h3>Notre localisation</h3>
+            <div id="map" style="height: 400px; border-radius: 10px;"></div>
+            <div class="map-actions">
+                <a href="https://www.google.com/maps?q=Riviera+Palmeraie+Abidjan+Côte+d'Ivoire"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn btn-outline">
+                    <i class="fas fa-external-link-alt"></i> Ouvrir dans Google Maps
+                </a>
+                <button onclick="getDirections()" class="btn btn-primary">
+                    <i class="fas fa-route"></i> Itinéraire
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal de confirmation -->
+<div class="modal" id="successModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Message envoyé avec succès !</h3>
+            <button class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <p>Merci pour votre message. Nous vous répondrons dans les plus brefs délais.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="modalOk">OK</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/contact.js') }}"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Coordonnées approximatives pour Riviera Palmeraie, Abidjan
+const companyLat = 5.3597;
+const companyLng = -4.0083;
+
+function initMap() {
+    // Initialiser la carte
+    const map = L.map('map').setView([companyLat, companyLng], 15);
+
+    // Ajouter la couche OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ajouter un marqueur
+    const marker = L.marker([companyLat, companyLng]).addTo(map);
+    marker.bindPopup("<b>Togetdia</b><br>Riviera Palmeraie<br>Rond Point ADO, Rue l97.44").openPopup();
+}
+
+function getDirections() {
+    // Ouvrir Google Maps avec l'itinéraire
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${companyLat},${companyLng}`;
+    window.open(url, '_blank');
+}
+
+// Initialiser la carte quand la page est chargée
+document.addEventListener('DOMContentLoaded', function() {
+    initMap();
+});
+</script>
+{% endblock %}

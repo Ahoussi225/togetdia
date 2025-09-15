@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - Togetdia{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/services.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-container">
+            <a href="{{ url_for('index') }}">Accueil</a>
+            <span>></span>
+            <a href="#">{{ title }}</a>
+        </div>
+    </div>
+</div>
+
+<section class="services-hero">
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <p class="hero-subtitle">Des solutions complètes pour votre présence en ligne</p>
+    </div>
+</section>
+
+<section class="services-section">
+    <div class="container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <form id="filterForm" data-category="{{ category }}">
+                <div class="filter-form">
+                    <div class="filter-group">
+                        <label for="priceRange">Fourchette de prix</label>
+                        <select name="priceRange" id="priceRange">
+                            <option value="all">Tous les prix</option>
+                            <option value="low">Moins de 650.000fcfa</option>
+                            <option value="medium">650.000fcfa - 1.300.000fcfa</option>
+                            <option value="high">Plus de 1.300.000fcfa</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sortBy">Trier par</label>
+                        <select name="sortBy" id="sortBy">
+                            <option value="default">Par défaut</option>
+                            <option value="name">Nom (A-Z)</option>
+                            <option value="price">Prix (croissant)</option>
+                            <option value="popularity">Popularité</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search">Rechercher</label>
+                        <input type="text" id="search" name="search" placeholder="Nom du service...">
+                    </div>
+                    <div class="filter-group">
+                        <label style="visibility: hidden;">Filtrer</label>
+                        <button type="submit" class="btn btn-primary">Appliquer</button>
+                        <button type="reset" class="btn btn-outline">Réinitialiser</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="services-grid" id="servicesContainer">
+            {% for service in services %}
+            <div class="service-card" data-price="{{ service.price | replace('À partir de ', '') | replace('€', '') | replace('/mot', '') | replace(' ', '') | int }}" data-name="{{ service.title | lower }}">
+                <div class="service-icon">
+                    <i class="fas fa-{{ 'laptop-code' if category == 'digital' else 'robot' }}"></i>
+                </div>
+                <div class="service-content">
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.description }}</p>
+                    <div class="service-meta">
+                        <span class="service-price">{{ service.price }}</span>
+                        <span class="service-delivery">{{ service.delivery_time }}</span>
+                    </div>
+                    <div class="service-features-preview">
+                        {% for feature in service.features[:3] %}
+                        <span class="feature-tag">{{ feature }}</span>
+                        {% endfor %}
+                    </div>
+                    <a href="{{ url_for('service_detail', category=category, service_id=service.id) }}" class="btn-service">
+                        Voir le service <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if services|length == 0 %}
+        <div class="no-results">
+            <i class="fas fa-search"></i>
+            <h3>Aucun service trouvé</h3>
+            <p>Essayez de modifier vos filtres pour voir plus de résultats.</p>
+            <button class="btn btn-outline" id="resetFilters">Réinitialiser les filtres</button>
+        </div>
+        {% endif %}
+
+        <div class="services-cta">
+            <a href="{{ url_for('contact') }}" class="btn btn-primary">
+                Voir tous les services {{ 'digitaux' if category == 'digital' else 'IA' }}
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-bottom">
+    <div class="container">
+        <div class="cta-section">
+            <h2>Vous ne trouvez pas ce que vous cherchez ?</h2>
+            <p>Contactez-nous pour une solution personnalisée adaptée à vos besoins spécifiques</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('contact') }}" class="btn btn-primary">Demander un devis personnalisé</a>
+                <a href="{{ url_for('contact') }}" class="btn btn-outline">Parler à un expert</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/services.js') }}"></script>
+{% endblock %}

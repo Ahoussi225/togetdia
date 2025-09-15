@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.title }} - {{ category_name }} - Togetdia{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/service_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-container">
+            <a href="{{ url_for('index') }}">Accueil</a>
+            <span>></span>
+            <a href="{{ url_for('digital_services') if category == 'digital' else url_for('ia_services') }}">{{ category_name }}</a>
+            <span>></span>
+            <a href="#">{{ service.title }}</a>
+        </div>
+    </div>
+</div>
+
+<section class="service-detail">
+    <div class="container">
+        <!-- Service Hero -->
+        <div class="service-hero">
+            <div class="service-hero-content">
+                <div class="service-breadcrumb">
+                    <span class="category-badge">{{ category_name }}</span>
+                </div>
+                <h1>{{ service.title }}</h1>
+                <p class="service-description">{{ service.long_description }}</p>
+
+                <div class="service-meta-grid">
+                    <div class="meta-item">
+                        <i class="fas fa-tag"></i>
+                        <div>
+                            <span class="meta-label">Prix</span>
+                            <span class="meta-value">{{ service.price }}</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <span class="meta-label">Délai de livraison</span>
+                            <span class="meta-value">{{ service.delivery_time }}</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <span class="meta-label">Note clients</span>
+                            <span class="meta-value">4.8/5 (124 avis)</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <span class="meta-label">Garantie</span>
+                            <span class="meta-value">30 jours satisfait ou remboursé</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-actions">
+                    <button class="btn btn-primary btn-large" id="orderService">
+                        <i class="fas fa-shopping-cart"></i> Commander maintenant
+                    </button>
+                    <button class="btn btn-outline btn-large" id="contactExpert">
+                        <i class="fas fa-headset"></i> Contacter un expert
+                    </button>
+                    <button class="btn btn-icon" id="addToFavorites">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="service-hero-image">
+                <div class="image-placeholder">
+                    <i class="fas fa-{{ 'laptop-code' if category == 'digital' else 'robot' }}"></i>
+                </div>
+                <div class="image-badge">
+                    <i class="fas fa-bolt"></i> Service populaire
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="service-features">
+            <h2>Ce qui est inclus</h2>
+            <div class="features-grid">
+                {% for feature in service.features %}
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>{{ feature }}</h3>
+                        <p>Solution complète incluse dans le package de base sans frais supplémentaires.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Process Section -->
+        <div class="service-process">
+            <h2>Notre processus</h2>
+            <div class="process-timeline">
+                {% for step in service.process %}
+                <div class="process-step">
+                    <div class="step-number">{{ loop.index }}</div>
+                    <div class="step-content">
+                        <h3>Étape {{ loop.index }}: {{ step.split(':')[0] if ':' in step else step }}</h3>
+                        <p>{{ step.split(':')[1] if ':' in step else 'Processus standard pour ce service' }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="service-faq">
+            <h2>Questions fréquentes</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Quel est le délai moyen pour ce service ?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Le délai moyen pour {{ service.title | lower }} est de {{ service.delivery_time }}. Ce délai peut varier en fonction de la complexité de votre projet.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Proposez-vous un support après la livraison ?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui, tous nos services incluent un support technique de 30 jours après la livraison. Des forfaits de support prolongé sont également disponibles.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Puis-je demander des modifications ?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolument ! Nous incluons {{ '2' if service.price | int > 1000 else '1' }} round(s) de modifications gratuitement dans tous nos packages.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Quel format de livrable recevrai-je ?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Vous recevrez tous les fichiers sources, la documentation technique et un guide d'utilisation complet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div class="service-testimonials">
+            <h2>Ce que disent nos clients</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Service exceptionnel ! L'équipe a parfaitement compris nos besoins et a livré un travail de qualité supérieure."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Marie L.</h4>
+                            <span>Directrice Marketing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Délais respectés, communication excellente et résultat final au-delà de nos attentes. Je recommande !"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Thomas D.</h4>
+                            <span>Entrepreneur</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Professionalisme et expertise remarquables. Le service après-vente est particulièrement appréciable."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Sophie M.</h4>
+                            <span>Gérante de boutique</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Services -->
+        <div class="related-services">
+            <h2>Services similaires</h2>
+            <div class="services-grid mini">
+                {% for related_service in services_data[category] %}
+                {% if related_service.id != service.id %}
+                <div class="service-card mini">
+                    <div class="service-image">
+                        <i class="fas fa-{{ 'laptop-code' if category == 'digital' else 'robot' }}"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>{{ related_service.title }}</h3>
+                        <p>{{ related_service.description }}</p>
+                        <span class="service-price">{{ related_service.price }}</span>
+                        <a href="{{ url_for('service_detail', category=category, service_id=related_service.id) }}" class="service-link">
+                            Voir le service <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Order Modal -->
+<div class="modal" id="orderModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Commander {{ service.title }}</h3>
+            <button class="modal-close" id="closeOrderModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="order-form">
+                <div class="form-group">
+                    <label for="projectDetails">Détails de votre projet</label>
+                    <textarea id="projectDetails" placeholder="Décrivez votre projet en détail..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Budget estimé</label>
+                    <input type="text" id="budget" value="{{ service.price }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="timeline">Délai souhaité</label>
+                    <input type="text" id="timeline" value="{{ service.delivery_time }}" readonly>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelOrder">Annuler</button>
+            <button class="btn btn-primary" id="confirmOrder">Confirmer la commande</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/service_detail.js') }}"></script>
+{% endblock %}
