@@ -4,6 +4,70 @@ from functools import wraps
 app = Flask(__name__)
 app.secret_key = 'votre_cle_secrete_ici'
 
+# Données des packages
+PACKAGES_DATA = {
+    "bronze": {
+        "name": "BRONZE",
+        "users": "500 – 5.000",
+        "publications": 2,
+        "pageSponsoring": 1,
+        "visualSponsoring": 1,
+        "tocetPublications": 1,
+        "statistics": 0,
+        "prices": {
+            "linkedin": 550000,
+            "facebook": 550000,
+            "twitter": 450000,
+            "instagram": 350000
+        }
+    },
+    "silver": {
+        "name": "SILVER",
+        "users": "5.501 – 10.000",
+        "publications": 3,
+        "pageSponsoring": 2,
+        "visualSponsoring": 2,
+        "tocetPublications": 2,
+        "statistics": 0,
+        "prices": {
+            "linkedin": 850000,
+            "facebook": 850000,
+            "twitter": 750000,
+            "instagram": 650000
+        }
+    },
+    "gold": {
+        "name": "GOLD",
+        "users": "10.001 – 15.000",
+        "publications": 4,
+        "pageSponsoring": 3,
+        "visualSponsoring": 3,
+        "tocetPublications": 3,
+        "statistics": 1,
+        "prices": {
+            "linkedin": 1250000,
+            "facebook": 1250000,
+            "twitter": 1150000,
+            "instagram": 950000
+        }
+    },
+    "platinum": {
+        "name": "PLATINUM",
+        "users": "15.001 et Plus",
+        "publications": 5,
+        "pageSponsoring": 4,
+        "visualSponsoring": 4,
+        "tocetPublications": 4,
+        "statistics": 2,
+        "prices": {
+            "linkedin": 1550000,
+            "facebook": 1550000,
+            "twitter": 1450000,
+            "instagram": 1250000
+        }
+    }
+}
+
 # Données complètes des services
 services_data = {
     'digital': [
@@ -204,26 +268,6 @@ services_data = {
     ]
 }
 
-
-# Route pour les détails des services dynamiques
-@app.route('/service/<category>/<int:service_id>')
-def service_detail(category, service_id):
-    services = services_data.get(category, [])
-    service = next((s for s in services if s['id'] == service_id), None)
-
-    if not service:
-        abort(404)
-
-    return render_template('service_detail.html',
-                           service=service,
-                           category=category,
-                           category_name="Services Digitaux" if category == "digital" else "Services IA")
-
-
-@app.context_processor
-def inject_global_data():
-    return dict(services_data=services_data)
-
 # Decorator pour les routes nécessitant une authentification
 def login_required(f):
     @wraps(f)
@@ -231,20 +275,44 @@ def login_required(f):
         if 'user_id' not in session:
             return redirect(url_for('login', next=request.url))
         return f(*args, **kwargs)
-
     return decorated_function
-
 
 @app.route('/')
 def index():
     return render_template('index.html', services_data=services_data)
 
+@app.route('/consultation')
+def consultation():
+    platform = request.args.get('platform', 'all')
+    return render_template('consultation.html',
+                         packages_data=PACKAGES_DATA,
+                         platform=platform)
+
+@app.route('/api/packages')
+def get_packages():
+    platform = request.args.get('platform', 'all')
+    return jsonify(PACKAGES_DATA)
+
+@app.route('/api/packages/<platform>')
+def get_packages_by_platform(platform):
+    if platform == 'all':
+        return jsonify(PACKAGES_DATA)
+    else:
+        filtered_packages = {}
+        for key, data in PACKAGES_DATA.items():
+            filtered_packages[key] = {
+                **data,
+                "price": data["prices"].get(platform, "N/A")
+            }
+        return jsonify(filtered_packages)
+
+def format_price(price):
+    return f"{price:,} FCFA".replace(',', ' ')
 
 # Route pour les services digitaux (alias pour compatibilité)
 @app.route('/services')
 def services():
     return redirect(url_for('digital_services'))
-
 
 @app.route('/service-digital/')
 def digital_services():
@@ -252,13 +320,11 @@ def digital_services():
     services = services_data.get(category, [])
     return render_template('services.html', services=services, category=category, title="Services Digitaux")
 
-
 @app.route('/service-ia/')
 def ia_services():
     category = 'ia'
     services = services_data.get(category, [])
     return render_template('services.html', services=services, category=category, title="Services IA")
-
 
 @app.route('/service-ia/ola/services/developpent-de-site-web')
 def web_development_service():
@@ -279,6 +345,19 @@ def web_development_service():
     }
     return render_template('service_detail.html', service=service)
 
+# Route pour les détails des services dynamiques
+@app.route('/service/<category>/<int:service_id>')
+def service_detail(category, service_id):
+    services = services_data.get(category, [])
+    service = next((s for s in services if s['id'] == service_id), None)
+
+    if not service:
+        abort(404)
+
+    return render_template('service_detail.html',
+                           service=service,
+                           category=category,
+                           category_name="Services Digitaux" if category == "digital" else "Services IA")
 
 @app.route('/m/login', methods=['GET', 'POST'])
 def login():
@@ -298,7 +377,6 @@ def login():
 
     return render_template('login.html')
 
-
 @app.route('/m/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -315,18 +393,15 @@ def register():
 
     return render_template('register.html')
 
-
 @app.route('/m/account')
 @login_required
 def dashboard():
     return render_template('dashboard.html', username=session.get('username'))
 
-
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
-
 
 @app.route('/api/services/filter', methods=['POST'])
 def filter_services():
@@ -352,21 +427,26 @@ def filter_services():
 
     return jsonify(services=filtered_services)
 
-
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404
-
 
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
-
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+# Ajouter la fonction de formatage au contexte de tous les templates
+@app.context_processor
+def utility_processor():
+    return dict(format_price=format_price)
+
+@app.context_processor
+def inject_global_data():
+    return dict(services_data=services_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
