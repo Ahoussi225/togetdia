@@ -27,6 +27,7 @@
                 <a href="{{ url_for('digital_services') }}" class="nav-link">Services Digitaux</a>
                 <a href="{{ url_for('ia_services') }}" class="nav-link">Services IA</a>
                 <a href="{{ url_for('about') }}" class="nav-link">À Propos</a>
+                <li><a href="{{ url_for('consultation') }}" class="active">Consultation</a></li>
                 {% if session.user_id %}
                 <a href="{{ url_for('dashboard') }}" class="nav-link">Mon Compte</a>
                 <a href="{{ url_for('logout') }}" class="nav-link">Déconnexion</a>
@@ -35,7 +36,6 @@
                 <a href="{{ url_for('register') }}" class="nav-link nav-cta">Inscription</a>
                 {% endif %}
                 <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
-                <a href="{{ url_for('consultation') }}" class="nav-link">consultation</a>
             </div>
             <div class="nav-toggle" id="navToggle">
                 <span class="bar"></span>
