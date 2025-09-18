@@ -10,7 +10,8 @@
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="intro-image">
-                        <img src="{{ url_for('static', filename='images/togetop_logo.jpg') }}" alt="togetop_logo">
+        <img src="{{ url_for('static', filename='images/togetop_logo.jpg') }}" alt="togetop_logo">
+    </div>
     <div class="container">
         <div class="hero-content">
             <h1>Transformez votre entreprise avec Togetdia</h1>
@@ -26,7 +27,6 @@
         </div>
     </div>
 </section>
-
 
 <!-- Services Preview Section -->
 <section class="services-preview">
@@ -97,6 +97,59 @@
                     </div>
                 </div>
                 {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Nouvelle section Services avec Publicité Digital -->
+<section class="services-section">
+    <div class="container">
+        <h2>Nos Services Populaires</h2>
+        <div class="services-grid">
+            <!-- Service Développement d'application web -->
+            <div class="service-card">
+                <h3>Développement application web</h3>
+                <p>Création de sites web modernes et responsives</p>
+                <div class="price">À partir de 643.500 FCFA</div>
+                <div class="timeline">2-4 semaines</div>
+                <ul class="features">
+                    <li>Design responsive adapté à tous les appareils</li>
+                    <li>Intégration SEO pour une meilleure visibilité</li>
+                    <li>Interface administrateur intuitive</li>
+                </ul>
+                <!-- Correction: Ajout du paramètre category -->
+                <a href="{{ url_for('service_detail', category='digital', service_id='developpement-web') }}" class="btn">Voir le service →</a>
+            </div>
+
+            <!-- Service Design Graphique -->
+            <div class="service-card">
+                <h3>Design Graphique</h3>
+                <p>Conceptions visuelles percutantes pour votre marque</p>
+                <div class="price">À partir de 318.500 FCFA</div>
+                <div class="timeline">1-2 semaines</div>
+                <ul class="features">
+                    <li>Logo et identité visuelle</li>
+                    <li>Charte graphique complète</li>
+                    <li>Design d'interface utilisateur</li>
+                </ul>
+                <!-- Correction: Ajout du paramètre category -->
+                <a href="{{ url_for('service_detail', category='digital', service_id='design-graphique') }}" class="btn">Voir le service →</a>
+            </div>
+
+            <!-- Nouveau service Publicité Digital -->
+            <div class="service-card">
+                <h3>Publicité Digital</h3>
+                <p>Stratégies digitales pour augmenter votre visibilité</p>
+                <div class="price">À partir de 350.000 FCFA</div>
+                <div class="timeline">Dès la première semaine</div>
+                <ul class="features">
+                    <li>Gestion des réseaux sociaux</li>
+                    <li>Création de contenu attractif</li>
+                    <li>Campagnes publicitaires ciblées</li>
+                </ul>
+                <!-- Lien vers la page de tarification au lieu de service_detail -->
+                <a href="{{ url_for('tarification') }}#publicite-digital" class="btn">Voir le service →</a>
             </div>
         </div>
     </div>

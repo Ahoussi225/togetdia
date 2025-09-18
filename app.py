@@ -68,12 +68,12 @@ PACKAGES_DATA = {
     }
 }
 
-# Données complètes des services
+# Données complètes des services avec slugs
 services_data = {
     'digital': [
         {
-            'id': 1,
-            'title': 'Développement Web',
+            'id': "developpement d'application web ",
+            'title': "Développement d'application web",
             'description': 'Création de sites web modernes et responsives',
             'price': 'À partir de 643.500fcfa',
             'image': 'web-dev.jpg',
@@ -96,7 +96,7 @@ services_data = {
             ]
         },
         {
-            'id': 2,
+            'id': 'design-graphique',
             'title': 'Design Graphique',
             'description': 'Conceptions visuelles percutantes pour votre marque',
             'price': 'À partir de 318.500fcfa',
@@ -120,7 +120,7 @@ services_data = {
             ]
         },
         {
-            'id': 3,
+            'id': 'marketing-digital',
             'title': 'Marketing Digital',
             'description': 'Stratégies digitales pour augmenter votre visibilité',
             'price': 'À partir de 513.500fcfa',
@@ -144,33 +144,33 @@ services_data = {
             ]
         },
         {
-            'id': 4,
-            'title': 'Rédaction SEO',
-            'description': 'Contenu optimisé pour le référencement naturel',
-            'price': 'À partir de 100.000fcfa',
-            'image': 'seo-writing.jpg',
-            'delivery_time': '1-3 jours',
+            'id': 'publicite-digital',
+            'title': 'Publicité Digital',
+            'description': 'Gestion de campagnes publicitaires sur les réseaux sociaux',
+            'price': 'À partir de 350.000fcfa',
+            'image': 'digital-ad.jpg',
+            'delivery_time': 'Dès la première semaine',
             'features': [
-                'Recherche de mots-clés',
-                'Contenu optimisé SEO',
-                'Structure sémantique',
-                'Intégration des balises',
-                'Relecture et correction',
-                'Guidelines de style'
+                'Gestion des réseaux sociaux',
+                'Création de contenu attractif',
+                'Campagnes publicitaires ciblées',
+                'Analyse des performances',
+                'Optimisation continue',
+                'Reporting détaillé'
             ],
-            'long_description': 'Notre équipe de rédacteurs experts crée du contenu engageant et optimisé pour le référencement, boostant votre visibilité sur les moteurs de recherche.',
+            'long_description': 'Nous gérons votre publicité digitale sur les médias sociaux avec des contenus et visuels de qualité pour développer votre business.',
             'process': [
-                'Briefing et analyse',
-                'Recherche sémantique',
-                'Rédaction du contenu',
-                'Optimisation SEO',
-                'Validation et livraison'
+                'Analyse de votre public cible',
+                'Stratégie de publicité digitale',
+                'Création de contenus et visuels',
+                'Publication et monitoring',
+                'Analyse et optimisation'
             ]
         }
     ],
     'ia': [
         {
-            'id': 1,
+            'id': 'chatbot-intelligent',
             'title': 'Chatbot Intelligent',
             'description': 'Assistant conversationnel personnalisé pour votre entreprise',
             'price': 'À partir de 838.500fcfa',
@@ -194,7 +194,7 @@ services_data = {
             ]
         },
         {
-            'id': 2,
+            'id': 'analyse-predictive',
             'title': 'Analyse Prédictive',
             'description': 'Solutions IA pour anticiper les tendances du marché',
             'price': 'À partir de 1.293.500fcfa',
@@ -218,7 +218,7 @@ services_data = {
             ]
         },
         {
-            'id': 3,
+            'id': 'reconnaissance-images',
             'title': 'Reconnaissance d\'Images',
             'description': 'Systèmes de vision par ordinateur sur mesure',
             'price': 'À partir de 1.618.500fcfa',
@@ -242,7 +242,7 @@ services_data = {
             ]
         },
         {
-            'id': 4,
+            'id': 'traitement-langage',
             'title': 'Traitement du Langage',
             'description': 'Solutions NLP pour analyser et générer du texte',
             'price': 'À partir de 1.163.500fcfa',
@@ -259,7 +259,7 @@ services_data = {
             'long_description': 'Exploitez la puissance du NLP pour analyser, comprendre et générer du contenu textuel de manière automatisée et intelligente.',
             'process': [
                 'Analyse des besoins linguistiques',
-                'Développement des modèles NLP',
+                'Dévelppement des modèles NLP',
                 'Entraînement sur données spécifiques',
                 'Optimisation des performances',
                 'Intégration et déploiement'
@@ -336,14 +336,14 @@ def web_development_service():
             'Sécurité renforcée',
             'Support technique 24/7'
         ],
-        'price': 'À partir de 990€',
+        'price': 'À partir de 643.500fcfa',
         'delivery_time': '2-4 semaines',
         'image': 'web-development.jpg'
     }
     return render_template('service_detail.html', service=service)
 
-# Route pour les détails des services dynamiques
-@app.route('/service/<category>/<int:service_id>')
+# Route pour les détails des services dynamiques avec slugs
+@app.route('/service/<category>/<service_id>')
 def service_detail(category, service_id):
     services = services_data.get(category, [])
     service = next((s for s in services if s['id'] == service_id), None)
@@ -435,6 +435,12 @@ def contact():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+# Fonction utilitaire pour formater les prix
+def format_price(price):
+    if isinstance(price, (int, float)):
+        return f"{price:,.0f} FCFA".replace(",", " ")
+    return price
 
 # Ajouter la fonction de formatage au contexte de tous les templates
 @app.context_processor
