@@ -281,10 +281,10 @@ def login_required(f):
 def index():
     return render_template('index.html', services_data=services_data)
 
-@app.route('/consultation')
-def consultation():
+@app.route('/tarification')
+def tarification():
     platform = request.args.get('platform', 'all')
-    return render_template('consultation.html',
+    return render_template('tarification.html',
                          packages_data=PACKAGES_DATA,
                          platform=platform)
 
@@ -305,9 +305,6 @@ def get_packages_by_platform(platform):
                 "price": data["prices"].get(platform, "N/A")
             }
         return jsonify(filtered_packages)
-
-def format_price(price):
-    return f"{price:,} FCFA".replace(',', ' ')
 
 # Route pour les services digitaux (alias pour compatibilité)
 @app.route('/services')
@@ -441,7 +438,7 @@ def about():
 
 # Ajouter la fonction de formatage au contexte de tous les templates
 @app.context_processor
-def utility_processor():
+def utility_processor(format_price=None):
     return dict(format_price=format_price)
 
 @app.context_processor

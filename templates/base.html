@@ -27,7 +27,7 @@
                 <a href="{{ url_for('digital_services') }}" class="nav-link">Services Digitaux</a>
                 <a href="{{ url_for('ia_services') }}" class="nav-link">Services IA</a>
                 <a href="{{ url_for('about') }}" class="nav-link">À Propos</a>
-                <li><a href="{{ url_for('consultation') }}" class="active">Consultation</a></li>
+                <a href="{{ url_for('tarification') }}" class="nav-link">Tarification</a>
                 {% if session.user_id %}
                 <a href="{{ url_for('dashboard') }}" class="nav-link">Mon Compte</a>
                 <a href="{{ url_for('logout') }}" class="nav-link">Déconnexion</a>
@@ -71,7 +71,7 @@
                 <ul>
                     <li><a href="{{ url_for('digital_services') }}">Services Digitaux</a></li>
                     <li><a href="{{ url_for('ia_services') }}">Services IA</a></li>
-                    <li><a href="#">Consultation</a></li>
+                    <li><a href="{{ url_for('tarification') }}">Voir nos tarifs</a></li>
                     <li><a href="#">Formation</a></li>
                 </ul>
             </div>

@@ -132,8 +132,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gérer le changement de plateforme
     const platformSelector = document.getElementById('platform');
-    platformSelector.addEventListener('change', function() {
-        const selectedPlatform = this.value;
-        generatePackageCards(selectedPlatform === 'all' ? 'all' : selectedPlatform);
-    });
+    if (platformSelector) {
+        platformSelector.addEventListener('change', function() {
+            const selectedPlatform = this.value;
+            generatePackageCards(selectedPlatform === 'all' ? 'all' : selectedPlatform);
+        });
+    }
 });
